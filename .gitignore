@@ -1,0 +1,10 @@
+# Bloquear as fotos em pé (cards) e deitadas (banners) do projeto
+carro-azul.png
+carro-preto.png
+carro-branco.png
+banner-interestelar.png
+banner-batman.png
+banner-origem.png
+
+# (Opcional) Se você quiser bloquear QUALQUER imagem .png que entrar na pasta:
+*.png
