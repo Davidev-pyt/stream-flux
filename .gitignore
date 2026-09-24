@@ -1,10 +1,7 @@
-# Bloquear as fotos em pé (cards) e deitadas (banners) do projeto
-carro-azul.png
-carro-preto.png
-carro-branco.png
-banner-interestelar.png
-banner-batman.png
-banner-origem.png
+# StreamFlux 2.0 - Bloquear arquivos locais pesados
+inter.png
+batman.png
+origem.png
 
-# (Opcional) Se você quiser bloquear QUALQUER imagem .png que entrar na pasta:
-*.png
+# SEGURANÇA MÁXIMA: Bloquear o arquivo privado com a chave da API
+config.js
