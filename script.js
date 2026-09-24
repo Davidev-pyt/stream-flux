@@ -1,7 +1,7 @@
 // 1. CONFIGURAÇÃO DA INFRAESTRUTURA DA API (TMDb)
 // Chave pública global de testes para liberar o seu acesso à nuvem imediatamente!
 // SEGURANÇA MÁXIMA: Puxa a chave privada direto do arquivo local camuflado!
-const API_KEY = CHAVE_PRIVADA_TMDB; 
+const API_KEY = CHAVE_PRIVADA_TMDB;
 const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=pt-BR&page=1`;
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 const BANNER_URL = "https://image.tmdb.org/t/p/w1280";
