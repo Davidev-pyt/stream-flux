@@ -1,0 +1,26 @@
+name: Deploy StreamFlux com API Key Segura
+
+on:
+  push:
+    branches:
+      - main  # Ou o nome da sua branch principal (ex: master)
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Injetar Chave de API de Forma Segura
+        run: |
+          echo "const CHAVE_PRIVADA_TMDB = '${{ secrets.TMDB_API_KEY }}';" > config.js
+
+      - name: Deploy no GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .
+          branch: gh-pages # Cria uma branch separada e segura para rodar o site na web
