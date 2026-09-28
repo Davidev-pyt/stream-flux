@@ -89,7 +89,6 @@ async function buscarFilmesDaAPI() {
 }
 
 // 4. FUNÇÃO QUE DESENHA OS CARDS DINÂMICOS NA TELA
-// 4. FUNÇÃO QUE DESENHA OS CARDS DINÂMICOS NA TELA (BLINDADA CONTRA ERROS DE CHAVES)
 function renderizarStreamFlux() {
     if (!container_carrossel) return;
     container_carrossel.innerHTML = "";
@@ -114,7 +113,7 @@ function renderizarStreamFlux() {
             <img src="${caminho_card}" alt="${titulo_final}" class="w-full h-full object-cover" onerror="this.src='inter.png'">
         `;
 
-        // 🌟 REATIVIDADE MÁXIMA: O clique agora atualiza o banner, textos e a memória global com segurança!
+        //  O clique agora atualiza o banner, textos e a memória global com segurança!
         card_elemento.addEventListener('click', () => {
             if (banner_topo) banner_topo.style.backgroundImage = `url('${caminho_banner}')`;
             if (texto_titulo) texto_titulo.textContent = titulo_final;
@@ -202,7 +201,6 @@ async function pesquisarFilmeNaAPI(termo) {
     }
 
     try {
-        // 🌟 A MÁGICA: Juntamos a sua URL base limpa com as chaves corretas e o termo da busca!
         const URL_COMPLETA = `${SEARCH_URL}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(termo_ajustado)}`;
         
         const resposta = await fetch(URL_COMPLETA);
@@ -228,7 +226,7 @@ async function pesquisarFilmeNaAPI(termo) {
 
  
 
-// 🔍 7. GATILHO REATIVO DO AUTOCOMPLETE: Escuta cada letra digitada e atualiza os cards na hora!
+// GATILHO REATIVO DO AUTOCOMPLETE: Escuta cada letra digitada e atualiza os cards na hora!
 if (input_busca) {
     input_busca.addEventListener('input', (evento) => {
         pesquisarFilmeNaAPI(evento.target.value);
