@@ -27,7 +27,7 @@
     <!-- Input de Texto -->
     <input type="text" id="input-busca" placeholder="Títulos, gêneros, atores..." 
            class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-full px-5 py-2 text-sm focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 placeholder-zinc-500 transition-all">
-    
+        <ul id="lista-sugestoes"></ul>
     <!-- Lista de Autocomplete (Atualizada com classes Tailwind para design moderno) -->
     <ul id="autocomplete-results" class="absolute left-0 right-0 top-full mt-2 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden shadow-2xl z-50 hidden max-h-[300px] overflow-y-auto"></ul>
     
@@ -57,11 +57,29 @@
     </section>
 
     <!-- CARROSSEL DE CARDS REATIVOS -->
-    <div class="p-8 md:px-16 flex flex-col gap-4 w-full">
+        <!-- CARROSSEL DE CARDS REATIVOS COM SETAS DE NAVEGAÇÃO -->
+    <div class="p-8 md:px-16 flex flex-col gap-4 w-full relative group">
         <h2 class="text-xl font-bold tracking-tight text-zinc-200">Tendências Agora</h2>
-        <div class="flex gap-4 overflow-x-auto pb-4 w-full scroll-smooth [&::-webkit-scrollbar]:hidden" style="scrollbar-width: none;" id="carrossel-filmes"></div>
+        
+        <!-- CONTAINER RELATIVO PARA SEGURAR OS BOTÕES NAS EXTREMIDADES -->
+        <div class="relative flex items-center w-full">
+            
+            <!-- ‹ SETA ESQUERDA (Flutuando na borda esquerda) -->
+            <button id="seta-esquerda" class="absolute left-0 bg-zinc-950/40 hover:bg-zinc-900 border border-zinc-800/50 text-white w-10 h-16 rounded-r-xl flex items-center justify-center font-black text-2xl transition-all opacity-0 group-hover:opacity-100 hover:scale-105 z-30 cursor-pointer shadow-lg shadow-black/50" title="Voltar">
+                ‹
+            </button>
+            
+            <!-- 🎞️ SEU CARROSSEL ATUAL (Fica espremido no meio das setas) -->
+            <div class="flex gap-4 overflow-x-auto pb-4 w-full scroll-smooth [&::-webkit-scrollbar]:hidden px-2" style="scrollbar-width: none;" id="carrossel-filmes"></div>
+            
+            <!-- › SETA DIREITA (Flutuando na borda direita) -->
+            <button id="seta-direita" class="absolute right-0 bg-zinc-950/40 hover:bg-zinc-900 border border-zinc-800/50 text-white w-10 h-16 rounded-l-xl flex items-center justify-center font-black text-2xl transition-all opacity-0 group-hover:opacity-100 hover:scale-105 z-30 cursor-pointer shadow-lg shadow-black/50" title="Avançar">
+                ›
+            </button>
 
+        </div>
     </div>
+
 
     <!-- MODAL DO PLAYER DE TRAILER (Nasce escondido com 'hidden') -->
     <div id="modal-player" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
