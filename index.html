@@ -78,6 +78,32 @@
 
         </div>
     </div>
+        <!-- MAIS BEM AVALIADOS -->
+    <div class="p-8 md:px-16 flex flex-col gap-4 w-full relative group">
+        <h2 class="text-xl font-bold tracking-tight text-zinc-200">Mais Bem Avaliados</h2>
+        <div class="relative flex items-center w-full">
+            <button id="seta-esquerda-top" class="absolute left-0 bg-zinc-950/40 hover:bg-zinc-900 border border-zinc-800/50 text-white w-10 h-16 rounded-r-xl flex items-center justify-center font-black text-2xl transition-all opacity-0 group-hover:opacity-100 hover:scale-105 z-30 cursor-pointer shadow-lg shadow-black/50">‹</button>
+            
+            <!-- 🎞️ ID Exclusivo para os favoritos da crítica -->
+            <div class="flex gap-4 overflow-x-auto pb-4 w-full scroll-smooth [&::-webkit-scrollbar]:hidden px-2" style="scrollbar-width: none;" id="carrossel-top-rated"></div>
+            
+            <button id="seta-direita-top" class="absolute right-0 bg-zinc-950/40 hover:bg-zinc-900 border border-zinc-800/50 text-white w-10 h-16 rounded-l-xl flex items-center justify-center font-black text-2xl transition-all opacity-0 group-hover:opacity-100 hover:scale-105 z-30 cursor-pointer shadow-lg shadow-black/50">›</button>
+        </div>
+    </div>
+
+    <!-- PRÓXIMOS LANÇAMENTOS -->
+    <div class="p-8 md:px-16 flex flex-col gap-4 w-full relative group">
+        <h2 class="text-xl font-bold tracking-tight text-zinc-200">Próximos Lançamentos</h2>
+        <div class="relative flex items-center w-full">
+            <button id="seta-esquerda-upcoming" class="absolute left-0 bg-zinc-950/40 hover:bg-zinc-900 border border-zinc-800/50 text-white w-10 h-16 rounded-r-xl flex items-center justify-center font-black text-2xl transition-all opacity-0 group-hover:opacity-100 hover:scale-105 z-30 cursor-pointer shadow-lg shadow-black/50">‹</button>
+            
+            <!-- ID Exclusivo para os próximos lançamentos -->
+            <div class="flex gap-4 overflow-x-auto pb-4 w-full scroll-smooth [&::-webkit-scrollbar]:hidden px-2" style="scrollbar-width: none;" id="carrossel-upcoming"></div>
+            
+            <button id="seta-direita-upcoming" class="absolute right-0 bg-zinc-950/40 hover:bg-zinc-900 border border-zinc-800/50 text-white w-10 h-16 rounded-l-xl flex items-center justify-center font-black text-2xl transition-all opacity-0 group-hover:opacity-100 hover:scale-105 z-30 cursor-pointer shadow-lg shadow-black/50">›</button>
+        </div>
+    </div>
+
 
 
     <!-- MODAL DO PLAYER DE TRAILER (Nasce escondido com 'hidden') -->
