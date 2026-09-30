@@ -169,22 +169,22 @@ if (botao_assistir) {
             modal_player.classList.remove('hidden');
             return;
         }
-        
-        const VIDEO_API = `https://themoviedb.org{filme_selecionado.id}/videos?api_key=${API_KEY}&language=pt-BR`;
-        
+    
+        const VIDEO_API = `https://api.themoviedb.org/3/movie/${filme_selecionado.id}/videosapi_key=${API_KEY}&language=pt-BR`;
+
         try {
             const resposta = await fetch(VIDEO_API);
             const dados = await resposta.json();
             let trailer_oficial = dados.results ? dados.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube") : null;
             
             if (!trailer_oficial) {
-                const resposta_en = await fetch(`https://themoviedb.org{filme_selecionado.id}/videos?api_key=${API_KEY}&language=en-US`);
+                const resposta_en = await fetch(`https://api.themoviedb.org/3/movie/${filme_selecionado.id}/videos?api_key=${API_KEY}&language=en-US`);
                 const dados_en = await resposta_en.json();
                 trailer_oficial = dados_en.results ? dados_en.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube") : null;
             }
 
             if (trailer_oficial) {
-                iframe_trailer.src = `https://youtube.com{trailer_oficial.key}?autoplay=1`;
+                iframe_trailer.src = `https://youtube.com/embed/${trailer_oficial.key}?autoplay=1`;
                 modal_player.classList.remove('hidden');
             } else {
                 alert("Trailer oficial não encontrado para este título.");
@@ -194,6 +194,7 @@ if (botao_assistir) {
         }
     });
 }
+
 
 if (botao_fechar) {
     botao_fechar.addEventListener('click', () => {
