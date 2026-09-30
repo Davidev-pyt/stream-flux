@@ -159,7 +159,7 @@ function renderizarStreamFlux(filmes, container) {
         }
     });
 }
-// 5. LÓGICA DE CONTROLE DO POP-UP DE TRAILERS DE HOLLYWOOD
+//LÓGICA DE CONTROLE DO POP-UP DE TRAILERS DE HOLLYWOOD
 if (botao_assistir) {
     botao_assistir.addEventListener('click', async () => {
         if (!filme_selecionado || !iframe_trailer || !modal_player) return;
@@ -202,7 +202,7 @@ if (botao_fechar) {
     });
 }
 
-// 🔍 6. MOTOR DE BUSCA GLOBAL DIRETO NA API (AUTOCAMPLETE ONLINE)
+// MOTOR DE BUSCA GLOBAL DIRETO NA API
 async function pesquisarFilmeNaAPI(termo) {
     if (!termo || termo.trim() === "") {
         buscarFilmesDaAPI(); // Se limpar a barra de pesquisa, restaura as categorias normais
@@ -236,7 +236,7 @@ if (input_busca) {
     });
 }
 
-// ⏳ 7. SISTEMA DE RELÓGIO AUTOMÁTICO DO BANNER PRINCIPAL (Slideshow de 5 segundos)
+// SISTEMA DE RELÓGIO AUTOMÁTICO DO BANNER PRINCIPAL (Slideshow de 5 segundos)
 function alternarBannerAutomatico() {
     if (lista_filmes.length === 0) return;
     index_filme_atual = (index_filme_atual + 1) % lista_filmes.length;
@@ -257,7 +257,7 @@ function iniciarCronometro() {
     cronometro_banner = setInterval(alternarBannerAutomatico, 5000);
 }
 
-// 🎞️ 8. NAVEGAÇÃO DAS SETAS DO CARROSSEL 1 (TENDÊNCIAS)
+// NAVEGAÇÃO DAS SETAS DO CARROSSEL 1 (TENDÊNCIAS)
 const seta_esquerda = document.getElementById('seta-esquerda');
 const seta_direita = document.getElementById('seta-direita');
 
