@@ -13,8 +13,8 @@ const BANNER_URL = "https://image.tmdb.org/t/p/w1280";
 
 // Rota de pesquisa oficial integrada com os parâmetros corretos da API v3 do TMDb
 const SEARCH_URL = `https://api.themoviedb.org/3/search/movie`;
-const TOP_RATED_URL = `https://api.themoviedb.org/3/movie/top_rated`;
-const UPCOMING_URL = `https://api.themoviedb.org/3/movie/upcoming`;
+const TOP_RATED_URL = `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=pt-BR&page=1`;
+const UPCOMING_URL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=pt-BR&page=1`;
 
 
 
@@ -71,7 +71,6 @@ let index_filme_atual = 0;
 let cronometro_banner = null;
 
 //MOTOR DE CONEXÃO COM FALLBACK INTELIGENTE
-// 3. O MOTOR DE CONEXÃO MULTI-CATEGORIAS COM A NUVEM
 async function buscarFilmesDaAPI() {
     if (!API_KEY) {
         console.log("Ambiente web de produção detectado. Ativando catálogo local de segurança!");
@@ -118,12 +117,12 @@ async function buscarFilmesDaAPI() {
     }
 }
 // FUNÇÃO QUE DESENHA OS CARDS DINÂMICOS NA TELA
-// 4. FUNÇÃO REUTILIZÁVEL QUE DESENHA OS CARDS NAS FILEIRAS EXCLUSIVAS (Limpa e sem fantasmas!)
 function renderizarStreamFlux(filmes, container) {
     if (!container) return;
     container.innerHTML = "";
+   const filmes_exibidos = filmes;
 
-    filmes.forEach((filme, index) => {
+    filmes_exibidos.forEach((filme, index) => {
         if (!filme.isLocal && !filme.poster_path) return;
 
         const card_elemento = document.createElement('div');
@@ -151,6 +150,7 @@ function renderizarStreamFlux(filmes, container) {
 
         container.appendChild(card_elemento);
 
+        // CONFIGURAÇÃO DO PRE-LOAD: Só destaca o primeiro filme se for a fileira principal de Tendências
         if (index === 0 && container === container_carrossel) {
             if (banner_topo) banner_topo.style.backgroundImage = `url('${caminho_banner}')`;
             if (texto_titulo) texto_titulo.textContent = titulo_final;
@@ -159,75 +159,84 @@ function renderizarStreamFlux(filmes, container) {
         }
     });
 }
-
 // 5. LÓGICA DE CONTROLE DO POP-UP DE TRAILERS DE HOLLYWOOD
-botao_assistir.addEventListener('click', async () => {
-    if (!filme_selecionado) return;
-    
-    if (filme_selecionado.isLocal) {
-        iframe_trailer.src = filme_selecionado.trailerLocal;
-        modal_player.classList.remove('hidden');
-        return;
-    }
-    
-    const VIDEO_API = `https://themoviedb.org{filme_selecionado.id}/videos?api_key=${API_KEY}&language=pt-BR`;
-    
-    try {
-        const resposta = await fetch(VIDEO_API);
-        const dados = await resposta.json();
-        const trailer_oficial = dados.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube");
+if (botao_assistir) {
+    botao_assistir.addEventListener('click', async () => {
+        if (!filme_selecionado || !iframe_trailer || !modal_player) return;
         
-        if (trailer_oficial) {
-            iframe_trailer.src = `https://youtube.com{trailer_oficial.key}?autoplay=1`;
-        } else {
-            const resposta_en = await fetch(`https://themoviedb.org{filme_selecionado.id}/videos?api_key=${API_KEY}&language=en-US`);
-            const dados_en = await resposta_en.json();
-            const trailer_en = dados_en.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube");
-            
-            if (trailer_en) {
-                iframe_trailer.src = `https://youtube.com{trailer_en.key}?autoplay=1`;
-            } else {
-                alert("Trailer oficial não encontrado para este título.");
-                return;
-            }
+        if (filme_selecionado.isLocal) {
+            iframe_trailer.src = filme_selecionado.trailerLocal;
+            modal_player.classList.remove('hidden');
+            return;
         }
         
-        modal_player.classList.remove('hidden');
-    } catch (erro) {
-        console.error("Erro ao puxar o trailer da API:", erro);
-    }
-});
+        const VIDEO_API = `https://themoviedb.org{filme_selecionado.id}/videos?api_key=${API_KEY}&language=pt-BR`;
+        
+        try {
+            const resposta = await fetch(VIDEO_API);
+            const dados = await resposta.json();
+            let trailer_oficial = dados.results ? dados.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube") : null;
+            
+            if (!trailer_oficial) {
+                const resposta_en = await fetch(`https://themoviedb.org{filme_selecionado.id}/videos?api_key=${API_KEY}&language=en-US`);
+                const dados_en = await resposta_en.json();
+                trailer_oficial = dados_en.results ? dados_en.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube") : null;
+            }
 
-botao_fechar.addEventListener('click', () => {
-    modal_player.classList.add('hidden');
-    iframe_trailer.src = "";
-});
-
-// FUNÇÃO DE CONSULTA DA LUPA COM FILTRO DE AUTOCOMPLETE REATIVO NA MEMÓRIA
-function filtrarFilmesNaMemoria(termo) {
-    if (!termo || termo.trim() === "") {
-        buscarFilmesDaAPI();
-        return;
-    }
-
-    const filtrados = lista_filmes.filter(filme => 
-        filme.title && filme.title.toLowerCase().includes(termo.toLowerCase())
-    );
-
-    if (filtrados.length > 0) {
-        renderizarStreamFlux(filtrados, container_carrossel);
-    } else {
-        container_carrossel.innerHTML = `<p class="text-zinc-500 text-sm py-4 px-4">Nenhum título encontrado para "${termo}".</p>`;
-    }
-}
-
-if (input_busca) {
-    input_busca.addEventListener('input', (evento) => {
-        filtrarFilmesNaMemoria(evento.target.value);
+            if (trailer_oficial) {
+                iframe_trailer.src = `https://youtube.com{trailer_oficial.key}?autoplay=1`;
+                modal_player.classList.remove('hidden');
+            } else {
+                alert("Trailer oficial não encontrado para este título.");
+            }
+        } catch (erro) {
+            console.error("Erro ao carregar o trailer:", erro);
+        }
     });
 }
 
-// SISTEMA DE RELÓGIO AUTOMÁTICO DO BANNER PRINCIPAL (Slideshow de 5 segundos)
+if (botao_fechar) {
+    botao_fechar.addEventListener('click', () => {
+        if (modal_player) modal_player.classList.add('hidden');
+        if (iframe_trailer) iframe_trailer.src = "";
+    });
+}
+
+// 🔍 6. MOTOR DE BUSCA GLOBAL DIRETO NA API (AUTOCAMPLETE ONLINE)
+async function pesquisarFilmeNaAPI(termo) {
+    if (!termo || termo.trim() === "") {
+        buscarFilmesDaAPI(); // Se limpar a barra de pesquisa, restaura as categorias normais
+        return;
+    }
+
+    const termo_ajustado = termo.toLowerCase();
+
+    try {
+        const URL_COMPLETA = `${SEARCH_URL}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(termo_ajustado)}`;
+        
+        const resposta = await fetch(URL_COMPLETA);
+        const dados = await resposta.json();
+        const filmes_encontrados = dados.results || [];
+        
+        if (filmes_encontrados.length > 0) {
+            renderizarStreamFlux(filmes_encontrados, container_carrossel);
+            clearInterval(cronometro_banner); // Para o relógio automático durante as pesquisas
+        } else {
+            container_carrossel.innerHTML = `<p class="text-zinc-500 text-sm py-4 px-4">Nenhum título encontrado para "${termo}".</p>`;
+        }
+    } catch (erro) {
+        console.error("Erro no mecanismo de busca:", erro);
+    }
+}
+
+// Ouvidor de digitação reativa (Autocomplete)
+if (input_busca) {
+    input_busca.addEventListener('input', (evento) => {
+        pesquisarFilmeNaAPI(evento.target.value);
+    });
+}
+
+// ⏳ 7. SISTEMA DE RELÓGIO AUTOMÁTICO DO BANNER PRINCIPAL (Slideshow de 5 segundos)
 function alternarBannerAutomatico() {
     if (lista_filmes.length === 0) return;
     index_filme_atual = (index_filme_atual + 1) % lista_filmes.length;
@@ -248,5 +257,22 @@ function iniciarCronometro() {
     cronometro_banner = setInterval(alternarBannerAutomatico, 5000);
 }
 
-// DISPARA O MOTOR INICIAL DO SITE COM O CRONÔMETRO ATIVO
+// 🎞️ 8. NAVEGAÇÃO DAS SETAS DO CARROSSEL 1 (TENDÊNCIAS)
+const seta_esquerda = document.getElementById('seta-esquerda');
+const seta_direita = document.getElementById('seta-direita');
+
+if (seta_direita) {
+    seta_direita.addEventListener('click', () => {
+        container_carrossel.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+}
+
+if (seta_esquerda) {
+    seta_esquerda.addEventListener('click', () => {
+        container_carrossel.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+}
+
+// DISPARA O MOTOR INICIAL DO SITE
 buscarFilmesDaAPI();
+
