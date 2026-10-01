@@ -134,8 +134,9 @@ function renderizarStreamFlux(filmes, container) {
         const titulo_final = filme.title || filme.name || "Título Desconhecido";
 
         card_elemento.innerHTML = `
-            <img src="${caminho_card}" alt="${titulo_final}" class="w-full h-full object-cover" onerror="this.src='inter.png'">
-        `;
+    <img src="${caminho_card}" alt="${titulo_final}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co'">
+`;
+
 
         card_elemento.addEventListener('click', () => {
             if (banner_topo) banner_topo.style.backgroundImage = `url('${caminho_banner}')`;
