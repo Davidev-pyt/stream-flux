@@ -259,19 +259,51 @@ function iniciarCronometro() {
     cronometro_banner = setInterval(alternarBannerAutomatico, 5000);
 }
 
-// NAVEGAÇÃO DAS SETAS DO CARROSSEL 1 (TENDÊNCIAS)
-const seta_esquerda = document.getElementById('seta-esquerda');
-const seta_direita = document.getElementById('seta-direita');
+// NAVEGAÇÃO DAS SETAS - FILEIRA 1 (TENDÊNCIAS AGORA)
+const carrossel_pop = document.getElementById('carrossel-filmes');
+const seta_esq_pop = document.getElementById('seta-esquerda');
+const seta_dir_pop = document.getElementById('seta-direita');
 
-if (seta_direita) {
-    seta_direita.addEventListener('click', () => {
-        container_carrossel.scrollBy({ left: 300, behavior: 'smooth' });
+if (seta_dir_pop && carrossel_pop) {
+    seta_dir_pop.addEventListener('click', () => {
+        carrossel_pop.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+}
+if (seta_esq_pop && carrossel_pop) {
+    seta_esq_pop.addEventListener('click', () => {
+        carrossel_pop.scrollBy({ left: -300, behavior: 'smooth' });
     });
 }
 
-if (seta_esquerda) {
-    seta_esquerda.addEventListener('click', () => {
-        container_carrossel.scrollBy({ left: -300, behavior: 'smooth' });
+// NAVEGAÇÃO DAS SETAS - FILEIRA 2 (MAIS BEM AVALIADOS)
+const carrossel_top = document.getElementById('carrossel-top-rated');
+const seta_esq_top = document.getElementById('seta-esquerda-top');
+const seta_dir_top = document.getElementById('seta-direita-top');
+
+if (seta_dir_top && carrossel_top) {
+    seta_dir_top.addEventListener('click', () => {
+        carrossel_top.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+}
+if (seta_esq_top && carrossel_top) {
+    seta_esq_top.addEventListener('click', () => {
+        carrossel_top.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+}
+
+// NAVEGAÇÃO DAS SETAS - FILEIRA 3 (PRÓXIMOS LANÇAMENTOS)
+const carrossel_up = document.getElementById('carrossel-upcoming');
+const seta_esq_up = document.getElementById('seta-esquerda-upcoming');
+const seta_dir_up = document.getElementById('seta-direita-upcoming');
+
+if (seta_dir_up && carrossel_up) {
+    seta_dir_up.addEventListener('click', () => {
+        carrossel_up.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+}
+if (seta_esq_up && carrossel_up) {
+    seta_esq_up.addEventListener('click', () => {
+        carrossel_up.scrollBy({ left: -300, behavior: 'smooth' });
     });
 }
 
